@@ -20,10 +20,7 @@ const roadmapSchema = new mongoose.Schema(
       enum: ["Planned", "In Progress", "Completed"],
       default: "Planned",
     },
-    upvotes: {
-      type: Number,
-      default: 0,
-    },
+    upvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   {
     timestamps: true,
