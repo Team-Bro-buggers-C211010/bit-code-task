@@ -1,8 +1,9 @@
 import User from "../models/userSchema.js";
 import bcrypt from "bcryptjs";
+import { generateToken } from './../lib/utils.js';
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { userName, email, password, role } = req.body;
   try {
     const isUserExists = await User.findOne({ email });
     if (isUserExists) {
@@ -12,9 +13,10 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = await User.create({
-      username,
+      userName,
       email,
       password: hashedPassword,
+      role
     });
 
     if (newUser) {
@@ -24,6 +26,7 @@ export const register = async (req, res) => {
         _id: newUser._id,
         userName: newUser.userName,
         email: newUser.email,
+        role: newUser.role,
       });
     } else {
       return res.status(400).json({ message: "Invalid user data" });
