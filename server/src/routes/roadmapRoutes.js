@@ -1,5 +1,5 @@
 import express from 'express';
-import { verifyToken } from '../middleware/auth.middleware.js';
+import { isAdmin, verifyToken } from '../middleware/auth.middleware.js';
 import { addRoadmap, getAllRoadmaps, getRoadmapById, upvoteRoadmap } from '../controllers/roadmapController.js';
 const router = express.Router();
 
@@ -9,6 +9,6 @@ router.get('/:id', verifyToken, getRoadmapById);
 
 router.put('/:id/upvote', verifyToken , upvoteRoadmap);
 
-router.post('/', verifyToken, addRoadmap);
+router.post('/', verifyToken, isAdmin, addRoadmap);
 
 export default router;
