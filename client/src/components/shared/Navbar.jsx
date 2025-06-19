@@ -17,31 +17,35 @@ const Navbar = () => {
   }
 
   const navLinks = <>
-    <NavLink
-      to="/"
-      className={({ isActive }) =>
-        isActive
-          ? "text-yellow-500 font-semibold flex items-center gap-1"
-          : "text-slate-900 hover:text-yellow-400 flex items-center gap-1"
-      }
-    >
-      <FaMap />
-      Roadmaps
-    </NavLink>
+    {
+      isAuthenticated && <>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "text-yellow-500 font-semibold flex items-center gap-1"
+              : "text-slate-900 hover:text-yellow-400 flex items-center gap-1"
+          }
+        >
+          <FaMap />
+          Roadmaps
+        </NavLink>
 
-    {isAdmin && (
-      <NavLink
-        to="/create-roadmap"
-        className={({ isActive }) =>
-          isActive
-            ? "text-yellow-500 font-semibold flex items-center gap-1"
-            : "text-slate-900 hover:text-yellow-400 flex items-center gap-1"
-        }
-      >
-        <FaPlus />
-        Create
-      </NavLink>
-    )}
+        {isAdmin && (
+          <NavLink
+            to="/create-roadmap"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-500 font-semibold flex items-center gap-1"
+                : "text-slate-900 hover:text-yellow-400 flex items-center gap-1"
+            }
+          >
+            <FaPlus />
+            Create
+          </NavLink>
+        )}
+      </>
+    }
 
     {!isAuthenticated ? (
       <>
