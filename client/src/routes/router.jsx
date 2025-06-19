@@ -6,8 +6,7 @@ import CreateRoadmap from './../pages/CreateRoadmap.jsx';
 import Root from './../pages/Root';
 import Roadmap from "../pages/Roadmap.jsx";
 import RedirectAuth from "./redirectAuth.jsx";
-
-
+import PrivateRoute from "./PrivateRoutes.jsx";
 
 const router = createBrowserRouter([
     {
@@ -16,7 +15,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Roadmap />
+                element: <PrivateRoute><Roadmap /></PrivateRoute>
             },
             {
                 path: "/register",
@@ -28,11 +27,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/:roadmapId/detail",
-                element: <RoadmapDetail />
+                element: <PrivateRoute><RoadmapDetail /></PrivateRoute>
             },
             {
                 path: "/create-roadmap",
-                element: <CreateRoadmap />
+                element: <PrivateRoute><CreateRoadmap /></PrivateRoute>
             }
         ]
     }

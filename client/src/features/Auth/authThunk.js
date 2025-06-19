@@ -36,17 +36,32 @@ export const loginUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk(
-    "auth/logoutUser",
-    async (_, thunkAPI) => {
-        try {
-        const axiosSecure = useAxiosSecure();
-        await axiosSecure.get("/auth/logout");
-        toast.success("Logout successful!");
-        return null;
-        } catch (error) {
-        const errorMessage = error.response?.data?.message || "Logout failed!";
-        toast.error(errorMessage);
-        return thunkAPI.rejectWithValue(errorMessage);
-        }
+  "auth/logoutUser",
+  async (_, thunkAPI) => {
+    try {
+      const axiosSecure = useAxiosSecure();
+      await axiosSecure.get("/auth/logout");
+      toast.success("Logout successful!");
+      return null;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Logout failed!";
+      toast.error(errorMessage);
+      return thunkAPI.rejectWithValue(errorMessage);
     }
+  }
+);
+
+export const checkAuth = createAsyncThunk(
+  "auth/checkAuth",
+  async (_, thunkAPI) => {
+    try {
+      const axiosSecure = useAxiosSecure();
+      const res = await axiosSecure.get("/auth/check-auth");
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+      error.response?.data?.message || "Authentication check failed!";
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
 );

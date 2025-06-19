@@ -68,16 +68,16 @@ const Login = () => {
                     className={`w-full p-2 outline-none`}
                   />
                   <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <FaRegEyeSlash className="size-5" />
-                  ) : (
-                    <FaRegEye className="size-5" />
-                  )}
-                </button>
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center hover:cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <FaRegEyeSlash className="size-5" />
+                    ) : (
+                      <FaRegEye className="size-5" />
+                    )}
+                  </button>
                 </div>
                 {errors.password && <p className="text-red-500">{errors.password.message}</p>}
               </div>
