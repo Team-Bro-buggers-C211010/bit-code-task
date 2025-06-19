@@ -3,10 +3,18 @@ import { FaMap, FaPlus, FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FiLogOut } from "react-icons/fi";
+import { logoutUser } from "../../features/Auth/authThunk";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = false;
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const isAdmin = true;
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    setIsOpen(false);
+  }
 
   const navLinks = <>
     <NavLink
@@ -35,7 +43,7 @@ const Navbar = () => {
       </NavLink>
     )}
 
-    {!isAuthenticated && (
+    {!isAuthenticated ? (
       <>
         <NavLink
           to="/login"
@@ -60,7 +68,15 @@ const Navbar = () => {
           Register
         </NavLink>
       </>
-    )}
+    ) : <button
+      type="button"
+      onClick={handleLogout}
+      className="text-slate-900 hover:text-yellow-500 hover:cursor-pointer flex items-center gap-1"
+    >
+      <FiLogOut />
+      Logout
+    </button>
+    }
   </>
 
   const mobileNavLinks = <>
@@ -90,7 +106,7 @@ const Navbar = () => {
       </NavLink>
     )}
 
-    {!isAuthenticated && (
+    {!isAuthenticated ? (
       <>
         <NavLink
           to="/login"
@@ -118,7 +134,15 @@ const Navbar = () => {
           Register
         </NavLink>
       </>
-    )}
+    ) : <button
+      type="button"
+      onClick={handleLogout}
+      className="text-slate-900 hover:text-yellow-500 hover:cursor-pointer flex items-center gap-1"
+    >
+      <FiLogOut />
+      Logout
+    </button>
+    }
   </>
 
   return (

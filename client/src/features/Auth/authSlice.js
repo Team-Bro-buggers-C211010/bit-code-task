@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "./authThunk";
+import { loginUser, logoutUser, registerUser } from "./authThunk";
 
 const initialState = {
     isAuthenticated: false,
@@ -38,6 +38,18 @@ export const authSlice = createSlice({
             })
             .addCase(loginUser.rejected, (state) => {
                 state.isLogin = false;
+            })
+
+            // Handle Logout
+            .addCase(logoutUser.pending, (state) => {
+                state.isAuthenticated = false;
+            })
+            .addCase(logoutUser.fulfilled, (state) => {
+                state.isAuthenticated = false;
+                state.user = null;
+            })
+            .addCase(logoutUser.rejected, (state) => {
+                state.isAuthenticated = false;
             })
     }
 })
