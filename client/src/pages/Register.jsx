@@ -3,13 +3,20 @@ import { Link } from "react-router-dom";
 import { IoMdMail } from "react-icons/io";
 import { FaLock, FaRegEye, FaRegEyeSlash, FaUser } from "react-icons/fa";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../features/Auth/authThunk";
+import toast from "react-hot-toast";
+import { ImSpinner3 } from "react-icons/im";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { isRegister } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(registerUser(data));
+    toast.success("Registration form submitted successfully!");
     reset();
   };
 
@@ -108,8 +115,15 @@ const Register = () => {
             <button
               type="submit"
               className="w-full border bg-amber-400 text-white p-2 rounded hover:bg-white hover:text-amber-400 hover:cursor-pointer hover:border-amber-400 transition-colors duration-300"
+              disabled={isRegister}
             >
-              Register
+              {
+                isRegister ? <>
+                  <div className="flex items-center justify-center">
+                    <ImSpinner3 className="animate-spin size-5" />
+                  </div>
+                </> : "Register"
+              }
             </button>
           </form>
 

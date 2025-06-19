@@ -5,6 +5,7 @@ import RoadmapDetail from './../pages/RoadmapDetail.jsx';
 import CreateRoadmap from './../pages/CreateRoadmap.jsx';
 import Root from './../pages/Root';
 import Roadmap from "../pages/Roadmap.jsx";
+import RedirectAuth from "./redirectAuth.jsx";
 
 
 
@@ -19,11 +20,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/register",
-                element: <Register />
+                element: <RedirectAuth><Register /></RedirectAuth>
             },
             {
                 path: "/login",
-                element: <Login />
+                element: <RedirectAuth><Login /></RedirectAuth>
             },
             {
                 path: "/:roadmapId/detail",
