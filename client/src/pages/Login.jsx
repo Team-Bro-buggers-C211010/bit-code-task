@@ -3,14 +3,21 @@ import { Link } from "react-router-dom";
 import { IoMdMail } from "react-icons/io";
 import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { loginUser } from "../features/Auth/authThunk";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(loginUser(data));
+    toast.success("Waiting for the confirmation!");
     reset();
   };
+
   return (
     <div className="min-h-[calc(100vh-65px)] flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white border border-amber-400 rounded-lg shadow-lg">
