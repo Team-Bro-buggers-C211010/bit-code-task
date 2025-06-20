@@ -26,7 +26,7 @@ const router = createBrowserRouter([
                 element: <RedirectAuth><Login /></RedirectAuth>
             },
             {
-                path: "/:roadmapId/detail",
+                path: "/:roadmapId/details",
                 element: <PrivateRoute><RoadmapDetail /></PrivateRoute>
             },
             {

@@ -43,12 +43,13 @@ export const getAllRoadmaps = async (req, res) => {
 export const getRoadmapById = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const userId = req.user._id;
     const roadmap = await Roadmap.findById(id).lean();
     if (!roadmap) {
       return res.status(404).json({ message: "Roadmap not found" });
     }
-    const isUpVoted = roadmap.upvotes.some((upvote) => upvote === userId.toString());
+    const isUpVoted = roadmap.upvotes.some((upvote) => upvote.toString() === userId.toString());
     const upvotesCount = roadmap.upvotes.length;
     return res.status(200).json({
       ...roadmap,

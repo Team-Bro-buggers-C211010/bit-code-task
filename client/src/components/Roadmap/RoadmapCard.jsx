@@ -1,6 +1,7 @@
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { upvoteRoadmap } from "../../features/Roadmaps/roadmapThunk";
+import { Link } from "react-router-dom";
 const RoadmapCard = ({ roadmap }) => {
     const dispatch = useDispatch();
     const handleUpvote = () => {
@@ -32,9 +33,9 @@ const RoadmapCard = ({ roadmap }) => {
                     }
                     {roadmap?.upvotesCount}
                 </p>
-                <span className="text-sm text-blue-600 hover:underline cursor-pointer">
+                <Link to={`/${roadmap._id}/details`} className="text-sm text-blue-600 hover:underline cursor-pointer">
                     View Details
-                </span>
+                </Link>
             </div>
         </div>
     )

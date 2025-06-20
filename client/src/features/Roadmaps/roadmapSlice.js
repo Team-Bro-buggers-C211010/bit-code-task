@@ -35,6 +35,7 @@ export const roadmapSlice = createSlice({
             .addCase(getRoadmapById.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.selectedRoadmap = action.payload;
+                console.log(state.selectedRoadmap);
             })
             .addCase(getRoadmapById.rejected, (state, action) => {
                 state.isLoading = false;
