@@ -10,27 +10,27 @@ const RoadmapCard = ({ roadmap }) => {
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow hover:shadow-lg transition">
             <div className="flex justify-between items-center mb-3">
                 <span className="text-sm bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-medium">
-                    {roadmap.category}
+                    {roadmap?.category}
                 </span>
                 <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">
-                    {roadmap.status}
+                    {roadmap?.status}
                 </span>
             </div>
 
             <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                {roadmap.title}
+                {roadmap?.title}
             </h3>
 
             <p className="text-sm text-gray-600 mb-4">
-                {roadmap.description.length > 100 ? `${roadmap.description.slice(0, 100)}...` : roadmap.description}
+                {roadmap?.description?.length > 100 ? `${roadmap.description.slice(0, 100)}...` : roadmap.description}
             </p>
 
             <div className="flex justify-between items-center">
                 <p className="flex items-center gap-2 text-sm px-3 py-1.5 border border-yellow-400 text-yellow-500 rounded">
                     {
-                        roadmap.isUpVoted ? <button disabled><AiFillLike className="text-yellow-400 font-semibold text-lg cursor-not-allowed transition-colors duration-200" /></button> : <button onClick={handleUpvote}><AiOutlineLike className="text-neutral-950 hover:text-yellow-400 hover:font-semibold text-lg cursor-pointer transition-colors duration-200" /></button>
+                        roadmap?.isUpVoted ? <button disabled><AiFillLike className="text-yellow-400 font-semibold text-lg cursor-not-allowed transition-colors duration-200" /></button> : <button onClick={handleUpvote}><AiOutlineLike className="text-neutral-950 hover:text-yellow-400 hover:font-semibold text-lg cursor-pointer transition-colors duration-200" /></button>
                     }
-                    {roadmap.upvotesCount}
+                    {roadmap?.upvotesCount}
                 </p>
                 <span className="text-sm text-blue-600 hover:underline cursor-pointer">
                     View Details
