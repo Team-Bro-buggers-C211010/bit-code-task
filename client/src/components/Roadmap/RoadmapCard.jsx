@@ -1,5 +1,6 @@
 import { AiOutlineLike } from "react-icons/ai";
 const RoadmapCard = ({ roadmap }) => {
+    console.log(roadmap)
     return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow hover:shadow-lg transition">
             <div className="flex justify-between items-center mb-3">

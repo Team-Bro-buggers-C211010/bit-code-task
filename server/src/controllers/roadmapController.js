@@ -26,7 +26,7 @@ export const getAllRoadmaps = async (req, res) => {
 
     const roadmapsWithUserInfo = roadmaps.map((roadmap) => {
       const upvotesCount = roadmap.upvotes.length;
-      const isUpVoted = roadmap.upvotes.some((upvote) => upvote === userId.toString());
+      const isUpVoted = roadmap.upvotes.some((upvote) => upvote.toString() === userId.toString());
       return {
         ...roadmap,
         upvotesCount,
