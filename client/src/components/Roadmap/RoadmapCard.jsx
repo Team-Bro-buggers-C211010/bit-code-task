@@ -1,6 +1,5 @@
-import { AiOutlineLike } from "react-icons/ai";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 const RoadmapCard = ({ roadmap }) => {
-    console.log(roadmap)
     return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow hover:shadow-lg transition">
             <div className="flex justify-between items-center mb-3">
@@ -22,7 +21,10 @@ const RoadmapCard = ({ roadmap }) => {
 
             <div className="flex justify-between items-center">
                 <p className="flex items-center gap-2 text-sm px-3 py-1.5 border border-yellow-400 text-yellow-500 rounded">
-                    <button><AiOutlineLike className="text-neutral-950 hover:text-yellow-400 hover:font-semibold text-lg cursor-pointer transition-colors duration-200" /></button>{roadmap.upvotesCount}
+                    {
+                        roadmap.isUpVoted ? <button disabled><AiFillLike className="text-yellow-400 font-semibold text-lg cursor-not-allowed transition-colors duration-200" /></button> : <button><AiOutlineLike className="text-neutral-950 hover:text-yellow-400 hover:font-semibold text-lg cursor-pointer transition-colors duration-200" /></button>
+                    }
+                    {roadmap.upvotesCount}
                 </p>
                 <span className="text-sm text-blue-600 hover:underline cursor-pointer">
                     View Details
