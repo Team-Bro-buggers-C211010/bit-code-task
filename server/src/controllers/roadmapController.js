@@ -79,7 +79,8 @@ export const upvoteRoadmap = async (req, res) => {
 
     return res.status(200).json({
       message: "Roadmap upvoted successfully",
-      upvotes: roadmap.upvotes.length,
+      roadmapId: roadmap._id,
+      upvotesCount: roadmap.upvotes.length,
       isUpVoted: roadmap.upvotes.includes(userId)
     });
   } catch (error) {

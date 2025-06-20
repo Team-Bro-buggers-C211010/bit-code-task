@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllRoadmaps, getRoadmapById } from "./roadmapThunk";
+import { getAllRoadmaps, getRoadmapById, upvoteRoadmap } from "./roadmapThunk";
 
 const initialState = {
     roadmaps: [],
@@ -39,6 +39,23 @@ export const roadmapSlice = createSlice({
             .addCase(getRoadmapById.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload || "Failed to fetch roadmap!";
+            })
+
+            // Upvote roadmap
+            .addCase(upvoteRoadmap.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(upvoteRoadmap.fulfilled, (state, action) => {
+                const { roadmapId, upvotesCount, isUpVoted } = action.payload;
+                state.isLoading = false;
+                state.roadmaps = state.roadmaps.map(roadmap => 
+                    roadmap._id === roadmapId ? { ...roadmap, upvotesCount, isUpVoted } : roadmap
+                );
+            })
+            .addCase(upvoteRoadmap.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload || "Failed to upvote roadmap!";
             })
     }
 })
