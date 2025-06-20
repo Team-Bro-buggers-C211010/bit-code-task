@@ -19,7 +19,7 @@ const RoadmapDetail = () => {
   }, [dispatch, roadmapId, selectedRoadmap]);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow rounded-md mt-10">
+    <div className="max-w-4xl mx-2 md:mx-auto p-6 bg-white shadow rounded-md mt-10">
       <div className="mb-8">
         <div className="flex justify-between items-center mb-3">
           <span className="bg-amber-100 text-amber-700 text-sm px-3 py-1 font-medium">

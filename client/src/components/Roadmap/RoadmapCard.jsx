@@ -13,7 +13,7 @@ const RoadmapCard = ({ roadmap }) => {
                 <span className="text-sm bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-medium">
                     {roadmap?.category}
                 </span>
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">
+                <span className={`text-xs ${roadmap?.status === 'Completed' ? 'bg-green-100 text-green-700' : roadmap?.status === 'In Progress' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'} px-2 py-1 rounded font-semibold`}>
                     {roadmap?.status}
                 </span>
             </div>
