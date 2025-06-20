@@ -8,8 +8,8 @@ import { FiLogOut } from "react-icons/fi";
 import { logoutUser } from "../../features/Auth/authThunk";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const isAdmin = true;
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const isAdmin = user?.role === "admin";
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logoutUser());

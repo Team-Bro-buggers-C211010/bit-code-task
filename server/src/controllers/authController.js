@@ -47,6 +47,7 @@ export const login = async (req, res) => {
         _id: user._id,
         userName: user.userName,
         email: user.email,
+        role: user.role,
       });
     } else {
       return res.status(400).json({ message: "Invalid email or password" });
