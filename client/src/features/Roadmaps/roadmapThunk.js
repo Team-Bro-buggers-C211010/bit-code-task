@@ -50,3 +50,20 @@ export const upvoteRoadmap = createAsyncThunk(
     }
   }
 );
+
+export const createRoadmap = createAsyncThunk(
+  "roadmap/createRoadmap",
+  async (roadmapData, thunkAPI) => {
+    try {
+      const axiosSecure = useAxiosSecure();
+      const res = await axiosSecure.post("/roadmap", roadmapData);
+      toast.success("Roadmap created successfully!");
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to create roadmap!";
+      toast.error(errorMessage);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+)
