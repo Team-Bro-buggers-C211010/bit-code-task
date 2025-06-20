@@ -43,7 +43,6 @@ export const getAllRoadmaps = async (req, res) => {
 export const getRoadmapById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const userId = req.user._id;
     const roadmap = await Roadmap.findById(id).lean();
     if (!roadmap) {

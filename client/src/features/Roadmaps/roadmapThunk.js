@@ -4,10 +4,11 @@ import toast from "react-hot-toast";
 
 export const getAllRoadmaps = createAsyncThunk(
   "roadmap/getAllRoadmaps",
-  async (_, thunkAPI) => {
+  async (filterSort, thunkAPI) => {
     try {
       const axiosSecure = useAxiosSecure();
-      const res = await axiosSecure.get("/roadmap");
+      const { category, status, sortBy } = filterSort;
+      const res = await axiosSecure.get(`/roadmap?category=${category}&status=${status}&sortBy=${sortBy}`);
       return res.data;
     } catch (error) {
       const errorMessage =
@@ -66,4 +67,4 @@ export const createRoadmap = createAsyncThunk(
       return thunkAPI.rejectWithValue(errorMessage);
     }
   }
-)
+);

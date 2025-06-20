@@ -1,4 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterSort } from "../../features/Roadmaps/roadmapSlice";
+
 const FilterSort = () => {
+    const { filterSort } = useSelector((state) => state.roadmap);
+    const dispatch = useDispatch();
+    const handleFilterSort = (e) => {
+        dispatch(setFilterSort({
+            ...filterSort,
+            [e.target.id]: e.target.value
+        }));
+    }
     return (
         <div className="flex flex-col lg:flex-row lg:items-end gap-4 bg-white p-4 shadow-md rounded-lg mb-6">
             <h2 className="text-xl font-semibold text-slate-800 mb-4">Filter & Sort :</h2>
@@ -10,7 +21,9 @@ const FilterSort = () => {
                     </label>
                     <select
                         id="category"
+                        value={filterSort.category}
                         className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm hover:cursor-pointer"
+                        onChange={handleFilterSort}
                     >
                         <option value="">All</option>
                         <option value="Feature">Feature</option>
@@ -27,7 +40,9 @@ const FilterSort = () => {
                     </label>
                     <select
                         id="status"
+                        value={filterSort.status}
                         className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm hover:cursor-pointer"
+                        onChange={handleFilterSort}
                     >
                         <option value="">All</option>
                         <option value="Planned">Planned</option>
@@ -41,8 +56,10 @@ const FilterSort = () => {
                         Sort By
                     </label>
                     <select
-                        id="sort"
+                        id="sortBy"
+                        value={filterSort.sortBy}
                         className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm hover:cursor-pointer"
+                        onChange={handleFilterSort}
                     >
                         <option value="latest">Latest</option>
                         <option value="popularity">Most Popular</option>

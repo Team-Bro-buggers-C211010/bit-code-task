@@ -5,11 +5,11 @@ import { getAllRoadmaps } from "../features/Roadmaps/roadmapThunk";
 import FilterSort from './../components/Roadmap/FilterSort';
 
 const Roadmap = () => {
-  const { roadmaps } = useSelector((state) => state.roadmap);
+  const { roadmaps, filterSort } = useSelector((state) => state.roadmap);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllRoadmaps());
-  }, [dispatch]);
+    dispatch(getAllRoadmaps(filterSort));
+  }, [dispatch, filterSort]);
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-end">

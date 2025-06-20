@@ -6,11 +6,21 @@ const initialState = {
     isLoading: false,
     error: null,
     selectedRoadmap: null,
+    filterSort: {
+        category: "",
+        status: "",
+        sortBy: ""
+    }
 }
 
 export const roadmapSlice = createSlice({
     name: "roadmap",
     initialState,
+    reducers: {
+        setFilterSort: (state, action) => {
+            state.filterSort = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             // Fetch all roadmaps
@@ -35,7 +45,6 @@ export const roadmapSlice = createSlice({
             .addCase(getRoadmapById.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.selectedRoadmap = action.payload;
-                console.log(state.selectedRoadmap);
             })
             .addCase(getRoadmapById.rejected, (state, action) => {
                 state.isLoading = false;
@@ -75,4 +84,5 @@ export const roadmapSlice = createSlice({
     }
 })
 
+export const { setFilterSort } = roadmapSlice.actions;
 export default roadmapSlice.reducer;
