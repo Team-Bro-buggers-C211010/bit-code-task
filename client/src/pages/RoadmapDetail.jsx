@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getRoadmapById, upvoteRoadmap } from "../features/Roadmaps/roadmapThunk";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import Comment from "../components/RoadmapDetails/Comment";
+import { getAllComments } from "../features/Comment/commentThunk";
 
 
 const RoadmapDetail = () => {
   const { selectedRoadmap } = useSelector(state => state.roadmap);
   const { user } = useSelector(state => state.auth);
+  const { comments } = useSelector(state => state.comment);
   const { roadmapId } = useParams();
   const dispatch = useDispatch();
   const handleUpvote = () => {
@@ -16,6 +19,7 @@ const RoadmapDetail = () => {
 
   useEffect(() => {
     dispatch(getRoadmapById(roadmapId));
+    dispatch(getAllComments(roadmapId));
   }, [dispatch, roadmapId, selectedRoadmap]);
 
   return (
@@ -68,31 +72,9 @@ const RoadmapDetail = () => {
       </div>
 
       <div className="space-y-6">
-        <div className="flex gap-3 items-start">
-          <div className="flex justify-center items-center bg-amber-100 border-2 border-amber-400 font-medium w-10 h-10 rounded-full object-cover">
-            {user?.userName?.charAt(0).toUpperCase() + user?.userName?.charAt(1).toUpperCase()}
-          </div>
-          <div className="bg-gray-50 p-4 rounded-md shadow-sm w-full">
-            <div className="flex items-center mb-1">
-              <h4 className="font-semibold text-slate-800 text-sm">{user?.userName}</h4>
-            </div>
-            <p className="text-gray-700 text-sm leading-relaxed">
-              I want to share my experience with this roadmap.
-            </p>
-            <div className="flex justify-end gap-2 md:gap-4 mt-2">
-              <p className="text-sm text-amber-600 hover:underline cursor-pointer">
-                Reply
-              </p>
-              <p className="text-sm text-blue-600 hover:underline cursor-pointer">
-                Edit
-              </p>
-              <p className="text-sm text-red-600 hover:underline cursor-pointer">
-                Delete
-              </p>
-            </div>
-          </div>
-        </div>
-
+        {
+          comments?.map(comment => <Comment key={comment._id} comment={comment} />)
+        }
       </div>
     </div>
 
