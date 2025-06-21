@@ -62,6 +62,9 @@ export const roadmapSlice = createSlice({
                 state.roadmaps = state.roadmaps.map(roadmap => 
                     roadmap._id === roadmapId ? { ...roadmap, upvotesCount, isUpVoted } : roadmap
                 );
+                if (state.selectedRoadmap && state.selectedRoadmap._id === roadmapId) {
+                    state.selectedRoadmap = { ...state.selectedRoadmap, upvotesCount, isUpVoted };
+                }
             })
             .addCase(upvoteRoadmap.rejected, (state, action) => {
                 state.isLoading = false;

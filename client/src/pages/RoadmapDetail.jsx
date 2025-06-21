@@ -5,6 +5,7 @@ import { getRoadmapById, upvoteRoadmap } from "../features/Roadmaps/roadmapThunk
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import Comment from "../components/RoadmapDetails/Comment";
 import { getAllComments } from "../features/Comment/commentThunk";
+import { useMemo } from "react";
 
 
 const RoadmapDetail = () => {
@@ -20,7 +21,36 @@ const RoadmapDetail = () => {
   useEffect(() => {
     dispatch(getRoadmapById(roadmapId));
     dispatch(getAllComments(roadmapId));
-  }, [dispatch, roadmapId, selectedRoadmap]);
+  }, [dispatch, roadmapId]);
+
+  // Build nested comment structure
+  const commentTree = useMemo(() => {
+    if (!comments) return [];
+
+    const map = {};
+    const roots = [];
+
+    // Create map of all comments
+    comments.forEach(comment => {
+      map[comment._id] = { ...comment, replies: [] };
+    });
+    console.log(map)
+    // Build nesting structure
+    comments.forEach(comment => {
+      if (comment.parentComment) {
+        const parentComment = map[comment.parentComment];
+        if (parentComment) {
+          parentComment.replies.push(map[comment._id]);
+        }
+      } else {
+        roots.push(map[comment._id]);
+      }
+    });
+
+    return roots;
+  }, [comments]);
+
+  console.log(commentTree)
 
   return (
     <div className="max-w-4xl mx-2 md:mx-auto p-6 bg-white shadow rounded-md mt-10">
@@ -73,7 +103,7 @@ const RoadmapDetail = () => {
 
       <div className="space-y-6">
         {
-          comments?.map(comment => <Comment key={comment._id} comment={comment} />)
+          commentTree?.map(comment => <Comment key={comment._id} comment={comment} />)
         }
       </div>
     </div>
