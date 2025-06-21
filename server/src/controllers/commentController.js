@@ -3,7 +3,7 @@ import Comment from "../models/commentSchema.js";
 export const getAllComments = async (req, res) => {
   try {
     const { id } = req.params;
-    const comments = await Comment.find({ roadmapId: id })
+    const comments = await Comment.find({ roadmap: id })
       .populate("user", "userName")
       .sort({ createdAt: -1 });
     res.status(200).json(comments);
