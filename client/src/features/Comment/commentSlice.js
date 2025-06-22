@@ -2,14 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { addComment, getAllComments } from './commentThunk';
 const initialState = {
     comments: [],
-    isLoading: false,
+    isLoading: false
 };
 
 const commentSlice = createSlice(
     {
         name: "comment",
         initialState,
-        reducers: {},
+        reducers: {
+            setIsReplying: (state, action) => {
+                state.isReplying = action.payload
+            }
+        },
         extraReducers: (builder) => {
             builder.
                 // get all comments

@@ -34,7 +34,6 @@ const RoadmapDetail = () => {
     comments.forEach(comment => {
       map[comment._id] = { ...comment, replies: [] };
     });
-    console.log(map)
     // Build nesting structure
     comments.forEach(comment => {
       if (comment.parentComment) {
@@ -50,8 +49,6 @@ const RoadmapDetail = () => {
     return roots;
   }, [comments]);
 
-  console.log(commentTree)
-
   return (
     <div className="max-w-4xl mx-2 md:mx-auto p-6 bg-white shadow rounded-md mt-10">
       <div className="mb-8">
@@ -59,7 +56,7 @@ const RoadmapDetail = () => {
           <span className="bg-amber-100 text-amber-700 text-sm px-3 py-1 font-medium">
             {selectedRoadmap?.category}
           </span>
-          <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 font-semibold">
+          <span className={`text-xs ${selectedRoadmap?.status === 'Completed' ? 'bg-green-100 text-green-700' : selectedRoadmap?.status === 'In Progress' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'} px-2 py-1 rounded font-semibold`}>
             {selectedRoadmap?.status}
           </span>
         </div>

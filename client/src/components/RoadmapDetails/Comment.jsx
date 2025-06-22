@@ -1,7 +1,10 @@
 import { useSelector } from "react-redux";
+import CommentReply from "./CommentReply";
+import { useState } from "react";
 
 const Comment = ({ comment }) => {
     const { user } = useSelector(state => state.auth);
+    const [isReplying, setIsReplying] = useState(false);
 
     return (
         <div className={`${comment.nestedDepth > 0 ? 'border-l-2 border-gray-200 pl-4 md:pl-6' : ''}`}>
@@ -35,6 +38,7 @@ const Comment = ({ comment }) => {
                         {comment.nestedDepth < 2 && (
                             <p
                                 className="text-sm text-amber-600 hover:underline cursor-pointer"
+                                onClick={() => setIsReplying(!isReplying)}
                             >
                                 Reply
                             </p>
@@ -42,6 +46,12 @@ const Comment = ({ comment }) => {
                     </div>
                 </div>
             </div>
+
+            {
+                isReplying && comment.nestedDepth < 2 && (
+                    <CommentReply setIsReplying={setIsReplying} comment={comment} />
+                )
+            }
 
             {/* Nested Replies */}
             {comment.replies && comment.replies.length > 0 && (
