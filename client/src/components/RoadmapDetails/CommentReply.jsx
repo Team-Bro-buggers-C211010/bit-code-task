@@ -15,7 +15,7 @@ const CommentReply = ({ onSubmit, handleSubmit, register, errors, setIsReplying,
                     <textarea
                         rows="2"
                         placeholder="Add a reply..."
-                        {...register("message", { required: "Message is required" })}
+                        {...register("message", { required: "Reply message is required" })}
                         className={`w-full px-4 py-2 border ${errors.message ? "border-red-500" : "border-gray-300"} rounded outline-none`}
                     ></textarea>
                     <div className="flex flex-col gap-2">

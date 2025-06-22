@@ -59,3 +59,14 @@ export const deleteComment = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const editComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { message } = req.body;
+    await Comment.findByIdAndUpdate(id, { message });
+    res.status(200).json({ message: "Comment updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

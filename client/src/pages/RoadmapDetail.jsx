@@ -103,7 +103,7 @@ const RoadmapDetail = () => {
             {...register("message", { required: "Comment is empty!" })}
             className={`flex-1 border ${errors.message ? "border-red-500" : "border-gray-300"} rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none`}
           ></textarea>
-          <button type="submit" className="bg-amber-400 text-white px-4 py-2 rounded-md text-sm hover:bg-amber-500 transition duration-200">
+          <button type="submit" className="bg-amber-400 text-white px-4 py-2 rounded-md text-sm cursor-pointer hover:bg-amber-500 transition duration-200">
             Post
           </button>
         </div>
