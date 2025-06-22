@@ -33,4 +33,21 @@ export const addComment = createAsyncThunk(
             return thunkAPI.rejectWithValue(errorMessage);
         }
     }
-)
+);
+
+export const deleteComment = createAsyncThunk(
+    "comment/deleteComment",
+    async (commentId, thunkAPI) => {
+        try {
+            const axiosSecure = useAxiosSecure();
+            await axiosSecure.delete(`/comment/${commentId}`);
+            toast.success("Comment deleted successfully!");
+            return commentId;
+        } catch (error) {
+            const errorMessage =
+                error.response?.data?.message || "Failed to delete comment!";
+            toast.error(errorMessage);
+            return thunkAPI.rejectWithValue(errorMessage);
+        }
+    }
+);

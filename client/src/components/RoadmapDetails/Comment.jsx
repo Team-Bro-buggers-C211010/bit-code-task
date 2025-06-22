@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import CommentReply from "./CommentReply";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { addComment, getAllComments } from "../../features/Comment/commentThunk";
+import { addComment, deleteComment, getAllComments } from "../../features/Comment/commentThunk";
+import toast from "react-hot-toast";
 
 const Comment = ({ comment }) => {
     const { user } = useSelector(state => state.auth);
@@ -16,6 +17,12 @@ const Comment = ({ comment }) => {
         await dispatch(getAllComments(selectedRoadmap._id));
         reset();
     }
+
+    const handleDelete = async (id) => {
+        await dispatch(deleteComment(id));
+        await dispatch(getAllComments(selectedRoadmap._id));
+    }
+
     return (
         <div className={`${comment.nestedDepth > 0 ? 'border-l-2 border-gray-200 pl-4 md:pl-6' : ''}`}>
             <div className="flex gap-3 items-start">
@@ -40,7 +47,7 @@ const Comment = ({ comment }) => {
                                 <p className="text-sm text-blue-600 hover:underline cursor-pointer">
                                     Edit
                                 </p>
-                                <p className="text-sm text-red-600 hover:underline cursor-pointer">
+                                <p onClick={() => handleDelete(comment._id)} className="text-sm text-red-600 hover:underline cursor-pointer">
                                     Delete
                                 </p>
                             </>
