@@ -1,11 +1,21 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CommentReply from "./CommentReply";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { addComment, getAllComments } from "../../features/Comment/commentThunk";
 
 const Comment = ({ comment }) => {
     const { user } = useSelector(state => state.auth);
+    const { selectedRoadmap } = useSelector(state => state.roadmap);
     const [isReplying, setIsReplying] = useState(false);
-
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const dispatch = useDispatch();
+    const onSubmit = async (data) => {
+        await dispatch(addComment({ ...data, roadmap: selectedRoadmap._id, user: user._id, parentCommentId: comment._id }));
+        setIsReplying(false);
+        await dispatch(getAllComments(selectedRoadmap._id));
+        reset();
+    }
     return (
         <div className={`${comment.nestedDepth > 0 ? 'border-l-2 border-gray-200 pl-4 md:pl-6' : ''}`}>
             <div className="flex gap-3 items-start">
@@ -49,7 +59,7 @@ const Comment = ({ comment }) => {
 
             {
                 isReplying && comment.nestedDepth < 2 && (
-                    <CommentReply setIsReplying={setIsReplying} comment={comment} />
+                    <CommentReply onSubmit={onSubmit} handleSubmit={handleSubmit} register={register} errors={errors} setIsReplying={setIsReplying} comment={comment} />
                 )
             }
 

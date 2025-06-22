@@ -57,8 +57,6 @@ const RoadmapDetail = () => {
     return roots;
   }, [comments]);
 
-  console.log(comments)
-
   return (
     <div className="max-w-4xl mx-2 md:mx-auto p-6 bg-white shadow rounded-md mt-10">
       <div className="mb-8">
