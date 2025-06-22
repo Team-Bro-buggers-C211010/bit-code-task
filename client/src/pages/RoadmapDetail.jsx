@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 import { getRoadmapById, upvoteRoadmap } from "../features/Roadmaps/roadmapThunk";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import Comment from "../components/RoadmapDetails/Comment";
-import { getAllComments } from "../features/Comment/commentThunk";
+import { addComment, getAllComments } from "../features/Comment/commentThunk";
 import { useMemo } from "react";
+import { useForm } from 'react-hook-form';
 
 
 const RoadmapDetail = () => {
@@ -14,8 +15,15 @@ const RoadmapDetail = () => {
   const { comments } = useSelector(state => state.comment);
   const { roadmapId } = useParams();
   const dispatch = useDispatch();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const handleUpvote = () => {
     dispatch(upvoteRoadmap(selectedRoadmap._id));
+  }
+
+  const onSubmit = async (data) => {
+    await dispatch(addComment({ ...data, roadmap: selectedRoadmap._id, user: user._id }));
+    await dispatch(getAllComments(selectedRoadmap._id));
+    reset();
   }
 
   useEffect(() => {
@@ -48,6 +56,8 @@ const RoadmapDetail = () => {
 
     return roots;
   }, [comments]);
+
+  console.log(comments)
 
   return (
     <div className="max-w-4xl mx-2 md:mx-auto p-6 bg-white shadow rounded-md mt-10">
@@ -84,19 +94,24 @@ const RoadmapDetail = () => {
         <p className="text-sm text-gray-500">Join the discussion and share your thoughts</p>
       </div>
 
-      <div className="flex gap-3 items-start mb-6">
-        <div className="flex justify-center items-center bg-amber-100 border-2 border-amber-400 font-medium w-10 h-10 rounded-full object-cover">
-          {user?.userName?.charAt(0).toUpperCase() + user?.userName?.charAt(1).toUpperCase()}
+      <form onSubmit={handleSubmit(onSubmit)} className="mb-6">
+        <div className="flex gap-3 items-start">
+          <div className="flex justify-center items-center bg-amber-100 border-2 border-amber-400 font-medium w-10 h-10 rounded-full object-cover">
+            {user?.userName?.charAt(0).toUpperCase() + user?.userName?.charAt(1).toUpperCase()}
+          </div>
+          <textarea
+            rows="3"
+            placeholder="Add a comment..."
+            {...register("message", { required: "Comment is empty!" })}
+            className={`flex-1 border ${errors.message ? "border-red-500" : "border-gray-300"} rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none`}
+          ></textarea>
+          <button type="submit" className="bg-amber-400 text-white px-4 py-2 rounded-md text-sm hover:bg-amber-500 transition duration-200">
+            Post
+          </button>
         </div>
-        <textarea
-          rows="3"
-          placeholder="Add a comment..."
-          className="flex-1 border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
-        ></textarea>
-        <button className="bg-amber-400 text-white px-4 py-2 rounded-md text-sm hover:bg-amber-500 transition duration-200">
-          Post
-        </button>
-      </div>
+        {errors.message && <p className="text-red-500 text-sm ml-14">{errors.message.message}</p>}
+      </form>
+
 
       <div className="space-y-6">
         {
