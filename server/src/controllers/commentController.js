@@ -41,3 +41,21 @@ export const addComment = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const deleteComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Comment.findByIdAndDelete(id);
+    const checkIsParent = async (id) => {
+      const comments = await Comment.find({ parentComment: id });
+      for (const comment of comments) {
+        await checkIsParent(comment._id);
+      }
+      await Comment.findByIdAndDelete(id);
+    };
+    checkIsParent(id);
+    res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
