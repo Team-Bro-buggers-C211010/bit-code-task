@@ -2,14 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import CommentReply from "./CommentReply";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { addComment, deleteComment, getAllComments } from "../../features/Comment/commentThunk";
+import { addComment, deleteComment, editComment, getAllComments } from "../../features/Comment/commentThunk";
+import toast from "react-hot-toast";
 
 const Comment = ({ comment }) => {
     const { user } = useSelector(state => state.auth);
     const { selectedRoadmap } = useSelector(state => state.roadmap);
     const [isReplying, setIsReplying] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const dispatch = useDispatch();
+    const [editedComment, setEditedComment] = useState(comment.message);
+
     const onSubmit = async (data) => {
         await dispatch(addComment({ ...data, roadmap: selectedRoadmap._id, user: user._id, parentCommentId: comment._id }));
         setIsReplying(false);
@@ -20,6 +24,12 @@ const Comment = ({ comment }) => {
     const handleDelete = async (id) => {
         await dispatch(deleteComment(id));
         await dispatch(getAllComments(selectedRoadmap._id));
+    }
+
+    const handleEditComment = (data) => {
+        dispatch(editComment(data));
+        setIsEditing(false);
+        dispatch(getAllComments(selectedRoadmap._id));
     }
 
     return (
@@ -36,30 +46,59 @@ const Comment = ({ comment }) => {
                             {comment?.user?.userName}
                         </h4>
                     </div>
-                    <p className="text-gray-700 text-sm leading-relaxed">
-                        {comment?.message}
-                    </p>
-
-                    <div className="flex justify-end gap-4 mt-2">
-                        {comment?.user?.userName === user?.userName && (
+                    {
+                        isEditing ? <>
+                            <form className="w-full flex gap-2">
+                                <textarea
+                                    rows="2"
+                                    defaultValue={comment?.message}
+                                    placeholder="Update your comment..."
+                                    onChange={(e) => setEditedComment(e.target.value)}
+                                    className={`w-full px-4 py-2 border border-gray-300 rounded outline-none`}
+                                ></textarea>
+                                <div className="flex flex-col gap-2">
+                                    <button
+                                        className=" bg-amber-400 text-white px-2 py-2 rounded-md text-sm hover:bg-amber-500 cursor-pointer transition duration-200"
+                                        onClick={ () => handleEditComment({ id: comment._id, message: editedComment })}
+                                    >
+                                        Update
+                                    </button>
+                                    <p
+                                        className="text-sm text-gray-600 hover:underline cursor-pointer"
+                                        onClick={() => setIsEditing(false)}
+                                    >
+                                        Cancel
+                                    </p>
+                                </div>
+                            </form>
+                        </> :
                             <>
-                                <p className="text-sm text-blue-600 hover:underline cursor-pointer">
-                                    Edit
+                                <p className="text-gray-700 text-sm leading-relaxed">
+                                    {comment?.message}
                                 </p>
-                                <p onClick={() => handleDelete(comment._id)} className="text-sm text-red-600 hover:underline cursor-pointer">
-                                    Delete
-                                </p>
+
+                                <div className="flex justify-end gap-4 mt-2">
+                                    {comment?.user?.userName === user?.userName && (
+                                        <>
+                                            <p onClick={() => setIsEditing(!isEditing)} className="text-sm text-blue-600 hover:underline cursor-pointer">
+                                                Edit
+                                            </p>
+                                            <p onClick={() => handleDelete(comment._id)} className="text-sm text-red-600 hover:underline cursor-pointer">
+                                                Delete
+                                            </p>
+                                        </>
+                                    )}
+                                    {comment.nestedDepth < 2 && (
+                                        <p
+                                            className="text-sm text-amber-600 hover:underline cursor-pointer"
+                                            onClick={() => setIsReplying(!isReplying)}
+                                        >
+                                            Reply
+                                        </p>
+                                    )}
+                                </div>
                             </>
-                        )}
-                        {comment.nestedDepth < 2 && (
-                            <p
-                                className="text-sm text-amber-600 hover:underline cursor-pointer"
-                                onClick={() => setIsReplying(!isReplying)}
-                            >
-                                Reply
-                            </p>
-                        )}
-                    </div>
+                    }
                 </div>
             </div>
 

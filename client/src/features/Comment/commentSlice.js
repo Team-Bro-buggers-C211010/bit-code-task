@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addComment, deleteComment, getAllComments } from './commentThunk';
+import { addComment, deleteComment, editComment, getAllComments } from './commentThunk';
 const initialState = {
     comments: [],
     isLoading: false
@@ -47,6 +47,17 @@ const commentSlice = createSlice(
                     state.isLoading = false;
                 })
                 .addCase(deleteComment.rejected, (state) => {
+                    state.isLoading = false;
+                })
+
+                // edit an individual comment
+                .addCase(editComment.pending, (state) => {
+                    state.isLoading = true;
+                })
+                .addCase(editComment.fulfilled, (state) => {
+                    state.isLoading = false;
+                })
+                .addCase(editComment.rejected, (state) => {
                     state.isLoading = false;
                 })
         }
