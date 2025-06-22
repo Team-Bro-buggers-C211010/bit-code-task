@@ -3,7 +3,6 @@ import CommentReply from "./CommentReply";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { addComment, deleteComment, editComment, getAllComments } from "../../features/Comment/commentThunk";
-import toast from "react-hot-toast";
 
 const Comment = ({ comment }) => {
     const { user } = useSelector(state => state.auth);
