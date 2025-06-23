@@ -1,6 +1,6 @@
 import User from "../models/userSchema.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from './../lib/utils.js';
+import { generateToken } from "./../lib/utils.js";
 
 export const register = async (req, res) => {
   const { userName, email, password, role } = req.body;
@@ -16,7 +16,7 @@ export const register = async (req, res) => {
       userName,
       email,
       password: hashedPassword,
-      role
+      role,
     });
 
     if (newUser) {
@@ -61,6 +61,9 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   try {
     res.cookie("token", "", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 0,
     });
     return res.status(200).json({ message: "Logged out successfully" });
@@ -77,4 +80,4 @@ export const checkAuth = (req, res) => {
     console.error("Error in checkAuth: ", error.message);
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
