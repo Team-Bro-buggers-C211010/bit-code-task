@@ -25,10 +25,10 @@ const Comment = ({ comment }) => {
         await dispatch(getAllComments(selectedRoadmap._id));
     }
 
-    const handleEditComment = (data) => {
-        dispatch(editComment(data));
+    const handleEditComment = async (data) => {
+        await dispatch(editComment(data));
         setIsEditing(false);
-        dispatch(getAllComments(selectedRoadmap._id));
+        await dispatch(getAllComments(selectedRoadmap._id));
     }
 
     return (
